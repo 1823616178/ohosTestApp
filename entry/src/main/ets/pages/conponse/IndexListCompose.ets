@@ -1,10 +1,14 @@
 import router from '@ohos.router'
 import { selectBookDbo } from '../../model/Index'
+import { touchModel } from '../../model/touchModel'
+import { listenTouchEvent } from './IndexListExtend/touchExtend'
 
 @Component
 export struct IndexListCompose {
   @Link homeData: selectBookDbo[]
   @Prop baseURL: string
+  private touch: touchModel = new touchModel();
+  @Link isRefresh: boolean
 
   private calcHeight() {
     let AllHeight: number = globalThis.AllHeight
@@ -43,6 +47,9 @@ export struct IndexListCompose {
         .width("98%")
       })
     }
+    .onTouch((event: TouchEvent) => {
+      listenTouchEvent(this.touch, event, this.isRefresh)
+    })
     .height(this.calcHeight())
     .lanes(2)
     .alignListItem(ListItemAlign.Center)

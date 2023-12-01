@@ -28,6 +28,7 @@ struct Index {
   ]
   @State offsetHeight: number = 0
   @State swiperHeight: number = 260
+  @State isRefresh: boolean = false
 
   async onPageShow() {
     await getBookList(this.query).then((res: resultType) => {
@@ -47,10 +48,13 @@ struct Index {
       }.height(this.swiperHeight)
 
       Column() {
-        IndexListCompose({
-          homeData: $homeData,
-          baseURL: this.baseURL,
-        })
+        Refresh({ refreshing: this.isRefresh }) {
+          IndexListCompose({
+            isRefresh: $isRefresh,
+            homeData: $homeData,
+            baseURL: this.baseURL,
+          })
+        }
       }
     }
   }
