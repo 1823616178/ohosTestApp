@@ -6,7 +6,7 @@ export interface HomeNavData {
 
 export interface resultType {
   code: number
-  data: selectBookResult
+  data: Object
   msg: string
 }
 
@@ -20,6 +20,7 @@ export interface selectBookQuery {
 
 export interface selectBookResult {
   rows: selectBookDbo[]
+  total: number
 }
 
 export interface selectBookDbo {

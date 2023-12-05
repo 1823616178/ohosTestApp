@@ -1,17 +1,32 @@
-import { touchModel } from '../../../model/touchModel'
+import { getBookList } from '../../../api/Index';
+import { resultType, selectBookDbo, selectBookQuery } from '../../../model/Index';
 
-export function listenTouchEvent(model: touchModel, event: TouchEvent, isRefresh: boolean) {
-  switch (event.type) {
-    case TouchType.Down:
-      model.downY = event.touches[0].y
-      model.lastMoveY = event.touches[0].y
-      break;
-    case TouchType.Move:
-      let isDownPull = event.touches[0].y - model.lastMoveY > 0
-      if (((isDownPull === true) || (isRefresh === true)) && (model.isCanLoadMore === false)) {
-        console.log(model.downY.toString())
-      } else {
-        console.log(model.downY.toString())
+/**
+ * 上拉加载
+ * @param model
+ * @param query
+ */
+export async function loadMoreData(model: selectBookDbo[], query: selectBookQuery) {
+  if (query.page) {
+    query.page += 1
+    await getBookList(query).then((res: resultType) => {
+      if (model.length < res.data.total) {
+        let list = res.data.rows
+        model.push(...list)
       }
+    })
+  }
+}
+/**
+ * 下拉刷新
+ * @param model
+ * @param query
+ */
+export async function pullTopData(model: selectBookDbo[], query: selectBookQuery) {
+  if (query.page) {
+    query.page = 1
+    await getBookList(query).then((res: resultType) => {
+      model = res.data.rows
+    })
   }
 }

@@ -1,4 +1,3 @@
-import hilog from '@ohos.hilog'
 import { getBookList } from '../api/Index'
 import { resultType, selectBookDbo, selectBookQuery, swiperModel } from '../model/Index'
 import { IndexListCompose } from './conponse/IndexListCompose'
@@ -45,11 +44,13 @@ struct Index {
           }.width("100%").alignItems(VerticalAlign.Center).justifyContent(FlexAlign.Center)
         })
       }.height(this.swiperHeight)
-
-      IndexListCompose({
-        ListModel: $ListModel,
-        baseURL: this.baseURL,
-      }).layoutWeight(1)
+      Column() {
+        IndexListCompose({
+          query:$query,
+          ListModel: $ListModel,
+          baseURL: this.baseURL,
+        })
+      }.layoutWeight(1)
     }
   }
 }

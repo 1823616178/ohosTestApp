@@ -11,3 +11,13 @@ export const getBookList = (data) => {
     data: data
   })
 }
+/**
+ * 获取图书详情
+ */
+export const getBookDetail = (data) => {
+  return http.request({
+    url: "/bookApi/selectBookPropertiesInfo",
+    method: "POST",
+    params: data
+  })
+}
