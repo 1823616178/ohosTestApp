@@ -1,19 +1,16 @@
 import router from '@ohos.router'
 import { getBookDetail } from '../api/Index'
-import { bookDetailModel, detailResultType } from '../model/indexDetail'
+import { resultType } from '../model/common'
+import { bookDetailModel, detailResultType, infoDicModel } from '../model/indexDetail'
 
 @Entry
 @Component
 struct IndexDetail {
   @State baseURL: string = getContext(this).resourceManager.getStringSync($r('app.string.baseImageURL').id)
   params = router.getParams()
-
-  @Styles Title() {
-
-  }
-
   @State sourceId: string = this.params['sourceId']
   @State bookDetail: bookDetailModel = {}
+  @State infoDic: infoDicModel[] = []
 
   /**
    * 初始化
@@ -22,11 +19,20 @@ struct IndexDetail {
     let query = {
       sourceId: this.sourceId
     }
-    await getBookDetail(query).then((res: detailResultType<bookDetailModel>) => {
+    await getBookDetail(query).then(async (res: resultType<bookDetailModel>) => {
       if (res) {
         this.bookDetail = res.data
+        await this.pushKeyToInfoDic(res.data)
       }
     })
+  }
+
+  async pushKeyToInfoDic(data: bookDetailModel) {
+    this.infoDic.push({ key: "著者", value: data.author || "" })
+    this.infoDic.push({ key: "创作时间", value: data.publishDate || "" })
+    this.infoDic.push({ key: "创作地点", value: data.publishPlace || "" })
+    this.infoDic.push({ key: "语种", value: data.languageType || "" })
+    this.infoDic.push({ key: "分类号", value: data.classificationCode || "" })
   }
 
   build() {
@@ -42,30 +48,18 @@ struct IndexDetail {
       .width("100%")
 
       Column() {
-        Row() {
-          Text("著者")
-          Text("何大章,缪鸿基合著")
-        }
-
-        Row() {
-          Text("著者")
-          Text("何大章,缪鸿基合著")
-        }
-
-        Row() {
-          Text("著者")
-          Text("何大章,缪鸿基合著")
-        }
-
-        Row() {
-          Text("著者")
-          Text("何大章,缪鸿基合著")
-        }
-
-        Row() {
-          Text("著者")
-          Text("何大章,缪鸿基合著")
-        }
+        ForEach(this.infoDic, (item: infoDicModel, index) => {
+          Row() {
+            Text(item.key)
+            Text(item.value)
+          }
+          .width("100%")
+          .height(30)
+          .alignItems(VerticalAlign.Center)
+          .justifyContent(FlexAlign.SpaceBetween)
+          .padding({ left: 5, right: 5 })
+          .margin({ top: 10 })
+        })
       }.justifyContent(FlexAlign.SpaceBetween)
       .width("100%")
 

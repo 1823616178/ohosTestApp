@@ -1,5 +1,6 @@
 import { getBookList } from '../api/Index'
-import { resultType, selectBookDbo, selectBookQuery, swiperModel } from '../model/Index'
+import { resultType } from '../model/common'
+import { selectBookDbo, selectBookQuery, selectBookResult, swiperModel } from '../model/Index'
 import { IndexListCompose } from './conponse/IndexListCompose'
 
 @Entry
@@ -29,7 +30,7 @@ struct Index {
   @State ListModel: selectBookDbo[] = []
 
   async onPageShow() {
-    await getBookList(this.query).then((res: resultType) => {
+    await getBookList(this.query).then((res: resultType<selectBookResult>) => {
       let data = res.data
       this.ListModel = data.rows
     })
@@ -44,9 +45,10 @@ struct Index {
           }.width("100%").alignItems(VerticalAlign.Center).justifyContent(FlexAlign.Center)
         })
       }.height(this.swiperHeight)
+
       Column() {
         IndexListCompose({
-          query:$query,
+          query: $query,
           ListModel: $ListModel,
           baseURL: this.baseURL,
         })

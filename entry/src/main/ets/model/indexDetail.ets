@@ -67,3 +67,8 @@ export class detailResultType<T> {
 
   }
 }
+
+export interface infoDicModel {
+  key: string,
+  value: string
+}

@@ -4,11 +4,6 @@ export interface HomeNavData {
   propertiesCount: number;
 }
 
-export interface resultType {
-  code: number
-  data: Object
-  msg: string
-}
 
 export interface selectBookQuery {
   advancedRetrievalParams?: string[],
