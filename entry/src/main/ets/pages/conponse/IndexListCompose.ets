@@ -1,24 +1,21 @@
 import router from '@ohos.router'
 import { selectBookDbo } from '../../model/Index'
+import { PullToRefresh } from '@ohos/pulltorefresh'
 
 @Component
 export struct IndexListCompose {
-  @Link homeData: selectBookDbo[]
   @Prop baseURL: string
-
-  private calcHeight() {
-    let AllHeight: number = globalThis.AllHeight
-    return px2vp(AllHeight) - 300
-  }
+  @Link ListModel: selectBookDbo[]
+  private scroller: Scroller = new Scroller()
 
   private toDetailPage() {
     router.pushUrl({ url: "pages/IndexDetail" })
   }
 
-  build() {
-    List() {
-      ForEach(this.homeData, (item: selectBookDbo, index) => {
-        ListItem() {
+  @Builder pullItem() {
+    Column() {
+      ForEach(this.ListModel, (item: selectBookDbo, index) => {
+        Column() {
           Button() {
             Column() {
               Image(this.baseURL + item.filePath)
@@ -43,10 +40,19 @@ export struct IndexListCompose {
         .width("98%")
       })
     }
-    .height(this.calcHeight())
-    .lanes(2)
-    .alignListItem(ListItemAlign.Center)
-    .listDirection(Axis.Vertical)
-    .scrollBar(BarState.Auto)
+  }
+
+  build() {
+    Column() {
+      PullToRefresh({
+        data: $ListModel,
+        scroller: this.scroller,
+        customList: () => {
+          this.pullItem
+        } }) {
+      }
+      .height("100%")
+      .layoutWeight(1)
+    }
   }
 }

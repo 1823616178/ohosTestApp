@@ -6,7 +6,6 @@ import { IndexListCompose } from './conponse/IndexListCompose'
 @Entry
 @Component
 struct Index {
-  @State homeData: selectBookDbo[] = []
   @State query: selectBookQuery = {
     advancedRetrievalParams: [],
     order: "",
@@ -28,11 +27,12 @@ struct Index {
   ]
   @State offsetHeight: number = 0
   @State swiperHeight: number = 260
+  @State ListModel: selectBookDbo[] = []
 
   async onPageShow() {
     await getBookList(this.query).then((res: resultType) => {
       let data = res.data
-      this.homeData = data.rows
+      this.ListModel = data.rows
     })
   }
 
@@ -46,12 +46,10 @@ struct Index {
         })
       }.height(this.swiperHeight)
 
-      Column() {
-        IndexListCompose({
-          homeData: $homeData,
-          baseURL: this.baseURL,
-        })
-      }
+      IndexListCompose({
+        ListModel: $ListModel,
+        baseURL: this.baseURL,
+      }).layoutWeight(1)
     }
   }
 }
