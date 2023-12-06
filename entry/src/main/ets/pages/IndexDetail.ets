@@ -20,13 +20,13 @@ struct IndexDetail {
   @State infoDic: infoDicModel[] = []
   @State tabType: string = ""
   @State tabName: infoDicModel[] = [
-    { key: "person", value: '人物' },
-    { key: "organization", value: '机构' },
-    { key: "event", value: '事件' },
-    { key: "geographical", value: '地名' },
-    { key: "product", value: '物产' },
-    { key: "object", value: '实物' },
-    { key: "work", value: '作品' },
+    { key: "person", value: '人物', type: 300 },
+    { key: "organization", value: '机构', type: 310 },
+    { key: "event", value: '事件', type: 320 },
+    { key: "geographical", value: '地名', type: 330 },
+    { key: "product", value: '物产', type: 340 },
+    { key: "object", value: '实物', type: 360 },
+    { key: "work", value: '作品', type: 350 },
   ]
   @State @Watch("getTabsList") tabIndexNumber: number = 0
   @State advancedRetrievalParams: advancedRetrievalParamsInf = {
@@ -36,20 +36,25 @@ struct IndexDetail {
     relation: "must"
   }
   @State knowListQuery: commonQueryType = {
-    advancedRetrievalParams: this.advancedRetrievalParams,
+    advancedRetrievalParams: [this.advancedRetrievalParams],
     component: this.tabName[this.tabIndexNumber].key,
     label: this.tabName[this.tabIndexNumber].value,
     order: "asc",
     page: 1,
     rows: 5,
-    type: 300,
+    type: this.tabName[this.tabIndexNumber].type,
     value: this.tabName[this.tabIndexNumber].key,
   }
-  @State knowList: selectBookKnowledgeListBySourceIdRows[] = []
+  @Provide knowList: Object[] = []
   /**
    * 初始化
    */
   async onPageShow() {
+    await this.getBookDetailInit()
+    await this.getTabsList()
+  }
+
+  async getBookDetailInit() {
     let query = {
       sourceId: this.sourceId
     }
@@ -60,7 +65,10 @@ struct IndexDetail {
       }
     })
   }
-
+  /**
+   * 整合信息类型
+   * @param data
+   */
   async pushKeyToInfoDic(data: bookDetailModel) {
     this.infoDic.push({ key: "著者", value: data.author || "" })
     this.infoDic.push({ key: "创作时间", value: data.publishDate || "" })
@@ -68,13 +76,18 @@ struct IndexDetail {
     this.infoDic.push({ key: "语种", value: data.languageType || "" })
     this.infoDic.push({ key: "分类号", value: data.classificationCode || "" })
   }
-
+  /**
+   * 请求知识数据
+   * @param index
+   */
   async getTabsList() {
-    await selectBookKnowledgeListBySourceId(this.knowListQuery)
-      .then((res: resultType<commonResultRows<selectBookKnowledgeListBySourceIdRows[]>>) => {
+    this.knowListQuery.component = this.tabName[this.tabIndexNumber].key
+    this.knowListQuery.label = this.tabName[this.tabIndexNumber].value
+    this.knowListQuery.value = this.tabName[this.tabIndexNumber].key
+    await selectBookKnowledgeListBySourceId(this.knowListQuery.value)
+      .then((res: resultType<commonResultRows<Object[]>>) => {
         this.knowList = res.data.rows
       })
-    hilog.info(0x0000, 'testTag', '%{public}s', this.tabIndexNumber.toString());
   }
 
   build() {

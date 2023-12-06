@@ -1,4 +1,4 @@
-import { infoDicModel } from '../../../model/indexDetail'
+import { infoDicModel, selectBookKnowledgeListBySourceIdRows } from '../../../model/indexDetail'
 import { tabContentInfo } from './tabContentInfo'
 
 @Component
@@ -16,7 +16,7 @@ export struct tabMain {
       })
     }
     .barHeight(500)
-    .onChange((index) => {
+    .onChange(async (index) => {
       this.tabIndexNumber = index
     })
   }

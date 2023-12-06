@@ -70,7 +70,8 @@ export class detailResultType<T> {
 
 export interface infoDicModel {
   key: string,
-  value: string
+  value: string,
+  type?: number
 }
 
 export interface selectBookKnowledgeListBySourceIdRows {

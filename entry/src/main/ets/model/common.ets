@@ -20,7 +20,7 @@ export class commonResultRows<T> {
 }
 
 export interface commonQueryType {
-  advancedRetrievalParams: advancedRetrievalParamsInf
+  advancedRetrievalParams: advancedRetrievalParamsInf[]
   component: string
   label: string
   order: string
