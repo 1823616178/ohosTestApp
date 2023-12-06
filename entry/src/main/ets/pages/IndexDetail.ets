@@ -1,7 +1,14 @@
 import router from '@ohos.router'
-import { getBookDetail } from '../api/Index'
-import { resultType } from '../model/common'
-import { bookDetailModel, detailResultType, infoDicModel } from '../model/indexDetail'
+import hilog from '@ohos.hilog'
+import { getBookDetail, selectBookKnowledgeListBySourceId } from '../api/Index'
+import { advancedRetrievalParamsInf, commonQueryType, commonResultRows, resultType } from '../model/common'
+import {
+  bookDetailModel,
+  detailResultType,
+  infoDicModel,
+  selectBookKnowledgeListBySourceIdRows
+} from '../model/indexDetail'
+import { tabMain } from './conponse/TabContentInfo/tabMain'
 
 @Entry
 @Component
@@ -11,7 +18,34 @@ struct IndexDetail {
   @State sourceId: string = this.params['sourceId']
   @State bookDetail: bookDetailModel = {}
   @State infoDic: infoDicModel[] = []
-
+  @State tabType: string = ""
+  @State tabName: infoDicModel[] = [
+    { key: "person", value: '人物' },
+    { key: "organization", value: '机构' },
+    { key: "event", value: '事件' },
+    { key: "geographical", value: '地名' },
+    { key: "product", value: '物产' },
+    { key: "object", value: '实物' },
+    { key: "work", value: '作品' },
+  ]
+  @State @Watch("getTabsList") tabIndexNumber: number = 0
+  @State advancedRetrievalParams: advancedRetrievalParamsInf = {
+    field: "sourceId",
+    keyword: "12jh003691",
+    match: "term",
+    relation: "must"
+  }
+  @State knowListQuery: commonQueryType = {
+    advancedRetrievalParams: this.advancedRetrievalParams,
+    component: this.tabName[this.tabIndexNumber].key,
+    label: this.tabName[this.tabIndexNumber].value,
+    order: "asc",
+    page: 1,
+    rows: 5,
+    type: 300,
+    value: this.tabName[this.tabIndexNumber].key,
+  }
+  @State knowList: selectBookKnowledgeListBySourceIdRows[] = []
   /**
    * 初始化
    */
@@ -35,10 +69,20 @@ struct IndexDetail {
     this.infoDic.push({ key: "分类号", value: data.classificationCode || "" })
   }
 
+  async getTabsList() {
+    await selectBookKnowledgeListBySourceId(this.knowListQuery)
+      .then((res: resultType<commonResultRows<selectBookKnowledgeListBySourceIdRows[]>>) => {
+        this.knowList = res.data.rows
+      })
+    hilog.info(0x0000, 'testTag', '%{public}s', this.tabIndexNumber.toString());
+  }
+
   build() {
     Flex({ direction: FlexDirection.Column, justifyContent: FlexAlign.Start }) {
       Row() {
         Text(this.bookDetail.title || "暂无标题")
+          .height(60)
+          .lineHeight(30)
           .fontSize(24)
           .fontColor(Color.Black)
           .fontWeight(FontWeight.Bold)
@@ -64,9 +108,28 @@ struct IndexDetail {
       .width("100%")
 
       Column() {
-        Text("摘要")
+        Text("摘要").fontSize(24).fontColor(Color.Black).fontWeight(FontWeight.Bold).margin({ top: 10 })
         Text("内分澳门之开埠、地理环境、人口、交通、经济活动、都市形态、澳门之将来等7章。书前有梁寒操等4人作序及著者序")
+          .margin({ top: 20 })
+          .padding({ left: 10, right: 10 })
       }
+
+      Column() {
+        Text("相关知识")
+          .fontSize(24)
+          .fontWeight(FontWeight.Bold)
+          .fontColor(Color.Black)
+          .height(30)
+          .lineHeight(30)
+        tabMain({
+          tabName: $tabName,
+          tabIndexNumber: $tabIndexNumber
+        })
+      }
+      .justifyContent(FlexAlign.Center)
+      .height(500)
+      .margin({ top: 20 })
+
     }.width('100%')
   }
 }

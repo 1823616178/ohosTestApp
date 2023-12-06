@@ -72,3 +72,31 @@ export interface infoDicModel {
   key: string,
   value: string
 }
+
+export interface selectBookKnowledgeListBySourceIdRows {
+  sourceId?: string;
+  originPlace?: string;
+  description?: string;
+  rid?: string;
+  type?: string;
+  delFlag?: string;
+  hasCount?: number;
+  productName?: string;
+  tableName?: string;
+  originPlaceSourceType?: string;
+  isRelease?: string;
+  productNameIndex?: string;
+  originPlaceIndex?: string;
+  constructionUnits?: string;
+  yield?: string;
+  administrativeLevel?: string;
+  sourceId_highlight?: string;
+  identifier?: string;
+  mergeType?: string;
+  titleHas?: number;
+  originPlaceIdentifier?: string;
+  sourceType?: string;
+  isTop?: string;
+  sourceName?: string;
+  isHot?: string;
+}

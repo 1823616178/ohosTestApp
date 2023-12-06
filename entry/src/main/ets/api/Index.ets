@@ -21,3 +21,13 @@ export const getBookDetail = (data) => {
     params: data
   })
 }
+/**
+ * 获取相关知识列表
+ */
+export const selectBookKnowledgeListBySourceId = (data) => {
+  return http.request({
+    url: "/bookApi/selectBookKnowledgeListBySourceId",
+    method: "POST",
+    data: data
+  })
+}
