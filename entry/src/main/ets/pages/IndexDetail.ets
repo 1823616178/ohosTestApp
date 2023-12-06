@@ -84,7 +84,8 @@ struct IndexDetail {
     this.knowListQuery.component = this.tabName[this.tabIndexNumber].key
     this.knowListQuery.label = this.tabName[this.tabIndexNumber].value
     this.knowListQuery.value = this.tabName[this.tabIndexNumber].key
-    await selectBookKnowledgeListBySourceId(this.knowListQuery.value)
+    this.knowListQuery.type = this.tabName[this.tabIndexNumber].type
+    await selectBookKnowledgeListBySourceId(this.knowListQuery)
       .then((res: resultType<commonResultRows<Object[]>>) => {
         this.knowList = res.data.rows
       })

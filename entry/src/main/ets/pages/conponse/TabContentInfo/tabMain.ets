@@ -10,7 +10,7 @@ export struct tabMain {
     Tabs({ barPosition: BarPosition.Start }) {
       ForEach(this.tabName, (item: infoDicModel, index) => {
         TabContent() {
-          tabContentInfo()
+          tabContentInfo({tabIndexNumber:this.tabIndexNumber})
         }.tabBar(item.value)
         .align(Alignment.Top)
       })

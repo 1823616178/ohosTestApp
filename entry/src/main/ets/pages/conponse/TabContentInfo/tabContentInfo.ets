@@ -3,6 +3,7 @@ import { selectBookKnowledgeListBySourceIdRows } from '../../../model/indexDetai
 @Component
 export struct tabContentInfo {
   @Consume knowList: Object[]
+  @Prop tabIndexNumber: number
 
   @Styles TextStyle(){
     .width("100%")
@@ -17,9 +18,34 @@ export struct tabContentInfo {
           Column() {
             Column() {
               Row() {
-                Text(item['sourceName'] || "不详") {
-                }.fontSize(20).width("100%")
-                .TextStyle()
+                if (this.tabIndexNumber === 0) {
+                  Text(item['personalName'] || "不详") {
+                  }.fontSize(20).width("100%").TextStyle()
+                }
+                if (this.tabIndexNumber === 1) {
+                  Text(item['chiOrganizationName'] || "不详") {
+                  }.fontSize(20).width("100%").TextStyle()
+                }
+                if (this.tabIndexNumber === 2) {
+                  Text(item['chiEventName'] || "不详") {
+                  }.fontSize(20).width("100%").TextStyle()
+                }
+                if (this.tabIndexNumber === 3) {
+                  Text(item['geographicalName'] || "不详") {
+                  }.fontSize(20).width("100%").TextStyle()
+                }
+                if (this.tabIndexNumber === 4) {
+                  Text(item['productName'] || "不详") {
+                  }.fontSize(20).width("100%").TextStyle()
+                }
+                if (this.tabIndexNumber === 5) {
+                  Text(item['sourceName'] || "不详") {
+                  }.fontSize(20).width("100%").TextStyle()
+                }
+                if (this.tabIndexNumber === 6) {
+                  Text(item['sourceName'] || "不详") {
+                  }.fontSize(20).width("100%").TextStyle()
+                }
               }
 
               Row() {
@@ -32,7 +58,27 @@ export struct tabContentInfo {
               Row() {
                 Text("传略").textAlign(TextAlign.Start)
                 Scroll() {
-                  Text(item['biography'] || "暂无").width("50%").textAlign(TextAlign.End)
+                  if (this.tabIndexNumber===0) {
+                    Text(item['biography'] || "暂无").width("50%").textAlign(TextAlign.End)
+                  }
+                  if (this.tabIndexNumber===1) {
+                    Text(item['description'] || "暂无").width("50%").textAlign(TextAlign.End)
+                  }
+                  if (this.tabIndexNumber===2) {
+                    Text(item['description'] || "暂无").width("50%").textAlign(TextAlign.End)
+                  }
+                  if (this.tabIndexNumber===3) {
+                    Text(item['azimuth'] || "暂无").width("50%").textAlign(TextAlign.End)
+                  }
+                  if (this.tabIndexNumber===4) {
+                    Text(item['description'] || "暂无").width("50%").textAlign(TextAlign.End)
+                  }
+                  if (this.tabIndexNumber===5) {
+                    Text(item['description'] || "暂无").width("50%").textAlign(TextAlign.End)
+                  }
+                  if (this.tabIndexNumber===6) {
+                    Text(item['description'] || "暂无").width("50%").textAlign(TextAlign.End)
+                  }
                 }.scrollable(ScrollDirection.Vertical)
                 .scrollBar(BarState.On)
                 .scrollBarWidth(1)
