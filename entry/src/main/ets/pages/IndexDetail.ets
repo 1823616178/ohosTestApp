@@ -28,19 +28,20 @@ struct IndexDetail {
     { key: "object", value: '实物', type: 360 },
     { key: "work", value: '作品', type: 350 },
   ]
-  @State @Watch("getTabsList") tabIndexNumber: number = 0
+  @State @Watch("changListNumber") tabIndexNumber: number = 0
   @State advancedRetrievalParams: advancedRetrievalParamsInf = {
     field: "sourceId",
     keyword: "12jh003691",
     match: "term",
     relation: "must"
   }
+  @Provide @Watch("changePageNum") pageNum: number = 1
   @State knowListQuery: commonQueryType = {
     advancedRetrievalParams: [this.advancedRetrievalParams],
     component: this.tabName[this.tabIndexNumber].key,
     label: this.tabName[this.tabIndexNumber].value,
     order: "asc",
-    page: 1,
+    page: this.pageNum,
     rows: 5,
     type: this.tabName[this.tabIndexNumber].type,
     value: this.tabName[this.tabIndexNumber].key,
@@ -52,6 +53,22 @@ struct IndexDetail {
   async onPageShow() {
     await this.getBookDetailInit()
     await this.getTabsList()
+  }
+  /**
+   * 当改变tab时
+   */
+  async changListNumber() {
+    this.knowList = []
+    this.pageNum = 1
+    await this.getTabsList()
+  }
+  /**
+   * 当改变pageNum时
+   */
+  async changePageNum() {
+    if (this.pageNum > 1) {
+      await this.getTabsList()
+    }
   }
 
   async getBookDetailInit() {
@@ -87,7 +104,9 @@ struct IndexDetail {
     this.knowListQuery.type = this.tabName[this.tabIndexNumber].type
     await selectBookKnowledgeListBySourceId(this.knowListQuery)
       .then((res: resultType<commonResultRows<Object[]>>) => {
-        this.knowList = res.data.rows
+        if (this.knowList.length < res.data.total) {
+          this.knowList.push(...res.data.rows)
+        }
       })
   }
 
@@ -138,7 +157,7 @@ struct IndexDetail {
         tabMain({
           tabName: $tabName,
           tabIndexNumber: $tabIndexNumber
-        })
+        }).layoutWeight(1)
       }
       .justifyContent(FlexAlign.Center)
       .height(500)

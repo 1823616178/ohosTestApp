@@ -4,6 +4,7 @@ import { selectBookKnowledgeListBySourceIdRows } from '../../../model/indexDetai
 export struct tabContentInfo {
   @Consume knowList: Object[]
   @Prop tabIndexNumber: number
+  @Consume pageNum: number
 
   @Styles TextStyle(){
     .width("100%")
@@ -58,26 +59,26 @@ export struct tabContentInfo {
               Row() {
                 Text("传略").textAlign(TextAlign.Start)
                 Scroll() {
-                  if (this.tabIndexNumber===0) {
-                    Text(item['biography'] || "暂无").width("50%").textAlign(TextAlign.End)
+                  if (this.tabIndexNumber === 0) {
+                    Text(item['biography'] || "暂无").width("50%").textAlign(TextAlign.End).lineHeight(16)
                   }
-                  if (this.tabIndexNumber===1) {
-                    Text(item['description'] || "暂无").width("50%").textAlign(TextAlign.End)
+                  if (this.tabIndexNumber === 1) {
+                    Text(item['description'] || "暂无").width("50%").textAlign(TextAlign.End).lineHeight(16)
                   }
-                  if (this.tabIndexNumber===2) {
-                    Text(item['description'] || "暂无").width("50%").textAlign(TextAlign.End)
+                  if (this.tabIndexNumber === 2) {
+                    Text(item['description'] || "暂无").width("50%").textAlign(TextAlign.End).lineHeight(16)
                   }
-                  if (this.tabIndexNumber===3) {
-                    Text(item['azimuth'] || "暂无").width("50%").textAlign(TextAlign.End)
+                  if (this.tabIndexNumber === 3) {
+                    Text(item['azimuth'] || "暂无").width("50%").textAlign(TextAlign.End).lineHeight(16)
                   }
-                  if (this.tabIndexNumber===4) {
-                    Text(item['description'] || "暂无").width("50%").textAlign(TextAlign.End)
+                  if (this.tabIndexNumber === 4) {
+                    Text(item['description'] || "暂无").width("50%").textAlign(TextAlign.End).lineHeight(16)
                   }
-                  if (this.tabIndexNumber===5) {
-                    Text(item['description'] || "暂无").width("50%").textAlign(TextAlign.End)
+                  if (this.tabIndexNumber === 5) {
+                    Text(item['description'] || "暂无").width("50%").textAlign(TextAlign.End).lineHeight(16)
                   }
-                  if (this.tabIndexNumber===6) {
-                    Text(item['description'] || "暂无").width("50%").textAlign(TextAlign.End)
+                  if (this.tabIndexNumber === 6) {
+                    Text(item['description'] || "暂无").width("50%").textAlign(TextAlign.End).lineHeight(16)
                   }
                 }.scrollable(ScrollDirection.Vertical)
                 .scrollBar(BarState.On)
@@ -91,9 +92,13 @@ export struct tabContentInfo {
           }.padding(10)
         }
       })
-    }.lanes(1)
+    }
+    .lanes(1)
+    .onReachEnd(() => {
+      this.pageNum++
+    })
     .width("100%")
     .listDirection(Axis.Vertical)
-    .divider({ color: Color.Gray, strokeWidth: 1 })
+    .edgeEffect(EdgeEffect.Spring)
   }
 }
