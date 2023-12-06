@@ -1,6 +1,7 @@
 {
   "src": [
-    "pages/IndexDetail",
-    "pages/Index"
+    "pages/IndexDetail/IndexDetail",
+    "pages/Index/Index",
+    "pages/Read/book/readBook"
   ]
 }

@@ -1,7 +1,7 @@
-import { getBookList } from '../api/Index'
-import { resultType } from '../model/common'
-import { selectBookDbo, selectBookQuery, selectBookResult, swiperModel } from '../model/Index'
-import { IndexListCompose } from './conponse/IndexListCompose'
+import { getBookList } from '../../api/Index'
+import { resultType } from '../../model/common'
+import { selectBookDbo, selectBookQuery, selectBookResult, swiperModel } from '../../model/Index'
+import { IndexListCompose } from '../conponse/IndexListCompose'
 
 @Entry
 @Component

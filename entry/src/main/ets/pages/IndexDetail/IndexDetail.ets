@@ -1,14 +1,14 @@
 import router from '@ohos.router'
 import hilog from '@ohos.hilog'
-import { getBookDetail, selectBookKnowledgeListBySourceId } from '../api/Index'
-import { advancedRetrievalParamsInf, commonQueryType, commonResultRows, resultType } from '../model/common'
+import { getBookDetail, selectBookKnowledgeListBySourceId } from '../../api/Index'
+import { advancedRetrievalParamsInf, commonQueryType, commonResultRows, resultType } from '../../model/common'
 import {
   bookDetailModel,
   detailResultType,
   infoDicModel,
   selectBookKnowledgeListBySourceIdRows
-} from '../model/indexDetail'
-import { tabMain } from './conponse/TabContentInfo/tabMain'
+} from '../../model/indexDetail'
+import { tabMain } from '../conponse/TabContentInfo/tabMain'
 
 @Entry
 @Component
@@ -102,6 +102,7 @@ struct IndexDetail {
     this.knowListQuery.label = this.tabName[this.tabIndexNumber].value
     this.knowListQuery.value = this.tabName[this.tabIndexNumber].key
     this.knowListQuery.type = this.tabName[this.tabIndexNumber].type
+    this.knowListQuery.page = this.pageNum
     await selectBookKnowledgeListBySourceId(this.knowListQuery)
       .then((res: resultType<commonResultRows<Object[]>>) => {
         if (this.knowList.length < res.data.total) {

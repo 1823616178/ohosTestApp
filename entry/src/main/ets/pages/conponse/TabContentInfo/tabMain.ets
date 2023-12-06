@@ -11,13 +11,21 @@ export struct tabMain {
       ForEach(this.tabName, (item: infoDicModel, index) => {
         TabContent() {
           tabContentInfo({ tabIndexNumber: this.tabIndexNumber })
-        }.tabBar(item.value)
+        }.tabBar(this.TabBuilder(item.value, index))
         .align(Alignment.Top)
       })
-    }
-    .barHeight(500)
+    }.layoutWeight(1)
+    .vertical(false)
     .onChange(async (index) => {
       this.tabIndexNumber = index
     })
+  }
+
+  @Builder TabBuilder(title: string, targetIndex: number) {
+    Column() {
+      Text(title) {
+      }.fontColor(targetIndex === this.tabIndexNumber ? "#0099ff" : Color.Black).fontSize(16)
+    }.height(50)
+    .justifyContent(FlexAlign.Center)
   }
 }

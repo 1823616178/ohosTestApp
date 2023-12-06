@@ -3,8 +3,8 @@ import { selectBookKnowledgeListBySourceIdRows } from '../../../model/indexDetai
 @Component
 export struct tabContentInfo {
   @Consume knowList: Object[]
-  @Prop tabIndexNumber: number
   @Consume pageNum: number
+  @Prop tabIndexNumber: number
 
   @Styles TextStyle(){
     .width("100%")
@@ -95,7 +95,7 @@ export struct tabContentInfo {
     }
     .lanes(1)
     .onReachEnd(() => {
-      this.pageNum++
+      this.pageNum = this.pageNum + 1
     })
     .width("100%")
     .listDirection(Axis.Vertical)

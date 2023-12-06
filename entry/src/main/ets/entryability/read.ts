@@ -7,7 +7,7 @@ export default class HomeAbility extends UIAbility {
   }
 
   onWindowStageCreate(windowStage: window.WindowStage) {
-    windowStage.loadContent("pages/IndexDetail", (err, data) => {
+    windowStage.loadContent("pages/Read/book/readBook", (err, data) => {
       if (err.code) {
         hilog.error(0x000, "log", err.code.toString())
         return

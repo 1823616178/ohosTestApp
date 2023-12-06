@@ -39,6 +39,10 @@
     {
       "name": "refresh_fail_text",
       "value": "刷新失败"
+    },
+    {
+      "name": "readbook_ability",
+      "value": "图书阅读页面"
     }
   ]
 }

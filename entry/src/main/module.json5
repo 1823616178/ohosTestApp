@@ -39,9 +39,9 @@
         ]
       },
       {
-        "name": "IndexDetailAbility",
-        "srcEntry": "./ets/entryability/IndexDetailAbility.ts",
-        "description": "$string:EntryAbility_desc",
+        "name": "readBookAbility",
+        "srcEntry": "./ets/entryability/read.ts",
+        "description": "$string:readbook_ability",
         "icon": "$media:icon",
         "label": "$string:EntryAbility_label",
         "startWindowIcon": "$media:icon",
