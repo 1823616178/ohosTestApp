@@ -37,7 +37,7 @@ export struct IndexListCompose {
   }
 
   private toDetailPage(item: selectBookDbo) {
-    router.pushUrl({ url: "pages/IndexDetail", params: { sourceId: item.sourceId } })
+    router.pushUrl({ url: "pages/IndexDetail/IndexDetail", params: { sourceId: item.sourceId } })
   }
 
   @Builder
@@ -104,11 +104,12 @@ export struct IndexListCompose {
               reject(e)
             }
           })
-        }
-      }) {
-      }
-      .height("100%")
-      .layoutWeight(1)
+        },
+        customRefresh: null,
+        customLoad: null
+      })
     }
+    .height("100%")
+    .layoutWeight(1)
   }
 }

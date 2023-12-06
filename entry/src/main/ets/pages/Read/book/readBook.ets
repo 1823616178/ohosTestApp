@@ -1,5 +1,8 @@
 @Entry
 @Component
-export class readBook {
-
+struct readBook {
+  build() {
+    Row() {
+    }
+  }
 }
