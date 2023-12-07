@@ -11,3 +11,13 @@ export const getBookNavList = (data) => {
     params: data
   })
 }
+/***
+ * 获取图书内容
+ */
+export const selectBookContentFileInfo = (data) => {
+  return http.request({
+    url: "/bookApi/selectBookContentFileInfo",
+    method: "POST",
+    params: data
+  })
+}

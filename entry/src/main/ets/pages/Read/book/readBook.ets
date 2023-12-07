@@ -1,7 +1,8 @@
 import router from '@ohos.router'
-import { getBookNavList } from '../../../api/read'
+import { getBookNavList, selectBookContentFileInfo } from '../../../api/read'
 import { resultType } from '../../../model/common'
 import { bookNavList } from '../../../model/read'
+import { articleContent } from './composent/articleContent'
 import { navList } from './composent/navList'
 
 @Entry
@@ -22,6 +23,7 @@ struct readBook {
    */
   async onPageShow() {
     await this.getReadNav()
+    await this.getBookContent()
   }
   /**
    * 获取图书导航栏
@@ -34,6 +36,19 @@ struct readBook {
     }
     await getBookNavList(query).then((res: resultType<bookNavList[]>) => {
       this.navList = res.data
+    })
+  }
+  /**
+   * 获取图书内容
+   */
+  private getBookContent = async () => {
+    let query = {
+      sourceId: this.sourceId,
+      identifier: this.identifier || "",
+      volume: this.volume || ""
+    }
+    await selectBookContentFileInfo(query).then(res => {
+
     })
   }
 
@@ -76,7 +91,8 @@ struct readBook {
       .scrollable(ScrollDirection.Vertical)
 
       Column() {
-
+        articleContent() {
+        }
       }
       .margin({ top: 50, left: 20, right: 30 })
     }

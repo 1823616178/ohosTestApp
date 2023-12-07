@@ -37,3 +37,38 @@ export interface bookNavList {
   searchValue?: string;
   status?: string;
 }
+
+
+/*FilePathArray*/
+export class filePathArray {
+  fileName: string;
+  pageNumber: number;
+  orderNumber: number;
+  filePath: string;
+  type: string;
+  content: string;
+}
+
+/**
+ * 图书内容模型
+ */
+export class bookListModel {
+  sourceId: string;
+  extent: string;
+  identifier: string;
+  eventNumber: number;
+  geographicalNumber: number;
+  parentRid: string;
+  orderNum: number;
+  bookAbstract: string;
+  personalNumber: number;
+  productNumber: number;
+  type: string;
+  title: string;
+  startFileNum: number;
+  tableNumber: string;
+  readModel: string;
+  endFileNum: number;
+  filePathArray: filePathArray[];
+  orgNumber: number;
+}
