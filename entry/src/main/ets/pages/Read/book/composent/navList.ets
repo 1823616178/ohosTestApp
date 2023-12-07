@@ -19,7 +19,7 @@ export struct navList {
             .width("100%")
             .onClick(() => {
               this.current = item.rid
-              if (item.children) {
+              if (item.children && this.ridList.indexOf(item.rid) > -1) {
                   this.ridList.indexOf(item.rid) > -1 ? this.ridList.splice(this.ridList.indexOf(item.rid, 1)) : this.ridList.push(item.rid)
               }
             })
@@ -29,7 +29,7 @@ export struct navList {
         }
         .padding({ left: 10, right: 0 })
         .width("100%")
-        .height(20)
+        .constraintSize({ minHeight: 20 })
         .justifyContent(FlexAlign.Center)
         .alignItems(HorizontalAlign.Center)
       })

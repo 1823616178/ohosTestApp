@@ -76,8 +76,7 @@ struct readBook {
       .scrollable(ScrollDirection.Vertical)
 
       Column() {
-        Text('SideBarContainer content text1').fontSize(25)
-        Text('SideBarContainer content text2').fontSize(25)
+
       }
       .margin({ top: 50, left: 20, right: 30 })
     }
