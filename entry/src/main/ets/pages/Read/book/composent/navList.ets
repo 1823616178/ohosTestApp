@@ -4,6 +4,7 @@ import { bookNavList } from '../../../../model/read'
 export struct navList {
   childrenList: bookNavList[]
   @Consume current: string
+  @Consume ridList: string[]
 
   build() {
     Column() {
@@ -12,13 +13,15 @@ export struct navList {
           Text(item.partName || "暂无")
             .fontSize(16)
             .textOverflow({ overflow: TextOverflow.Ellipsis })
-            .fontColor(this.current === item.parentRid ? '#0A59F7' : '#999')
+            .fontColor(this.current === item.rid ? '#0099ff' : '#999')
             .maxLines(1)
             .textAlign(TextAlign.Start)
             .width("100%")
-            .fontColor("#999")
             .onClick(() => {
-              this.current = item.parentRid
+              this.current = item.rid
+              if (item.children) {
+                  this.ridList.indexOf(item.rid) > -1 ? this.ridList.splice(this.ridList.indexOf(item.rid, 1)) : this.ridList.push(item.rid)
+              }
             })
           if (item.children) {
             navList({ childrenList: item.children })
@@ -26,7 +29,7 @@ export struct navList {
         }
         .padding({ left: 10, right: 0 })
         .width("100%")
-        .margin({ top: 5 })
+        .height(20)
         .justifyContent(FlexAlign.Center)
         .alignItems(HorizontalAlign.Center)
       })

@@ -15,6 +15,8 @@ struct readBook {
   @Provide identifier: string = this.params['identifier']
   @Provide volume: string = this.params['volume']
   @Provide navList: bookNavList[] = []
+  @Provide ridList: string[] = []
+
   /**
    * 初始化
    */
@@ -45,10 +47,10 @@ struct readBook {
                 .fontSize(16)
                 .textOverflow({ overflow: TextOverflow.Ellipsis })
                 .maxLines(1)
-                .fontColor(this.current === item.parentRid ? '#0A59F7' : '#999')
+                .fontColor(this.current === item.rid ? '#0A59F7' : '#999')
                 .textAlign(TextAlign.Start)
                 .width("100%")
-              if (item.children) {
+              if (item.children && this.ridList.indexOf(item.rid) > -1) {
                 navList({ childrenList: item.children })
               }
             }
@@ -58,7 +60,10 @@ struct readBook {
             .justifyContent(FlexAlign.Center)
             .alignItems(HorizontalAlign.Center)
             .onClick(() => {
-              this.current = item.parentRid
+              this.current = item.rid
+              if (item.children) {
+                  this.ridList.indexOf(item.rid) > -1 ? this.ridList.splice(this.ridList.indexOf(item.rid, 1)) : this.ridList.push(item.rid)
+              }
             })
           }, item => item)
         }
