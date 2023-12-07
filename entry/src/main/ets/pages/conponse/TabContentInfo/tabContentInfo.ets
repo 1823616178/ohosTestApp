@@ -1,3 +1,6 @@
+import common from '@ohos.app.ability.common'
+import hilog from '@ohos.hilog'
+import router from '@ohos.router'
 import { selectBookKnowledgeListBySourceIdRows } from '../../../model/indexDetail'
 
 @Component
@@ -10,6 +13,19 @@ export struct tabContentInfo {
     .width("100%")
     .height(40)
     .padding({ left: 10, right: 10 })
+  }
+  /**
+   * 跳转阅读ability
+   */
+  private async toReadAbility(data) {
+    router.pushUrl({
+      url: "pages/Read/book/readBook",
+      params: {
+        sourceId: data['sourceId'],
+        identifier: data['identifier'],
+        volume: data['volume']
+      }
+    })
   }
 
   build() {
@@ -51,7 +67,13 @@ export struct tabContentInfo {
 
               Row() {
                 Text("知识出处").textAlign(TextAlign.Start)
-                Text(item['sourceName'] || "不详").textAlign(TextAlign.End)
+                Text(item['sourceName'] || "不详")
+                  .textAlign(TextAlign.End)
+                  .fontColor("#0099ff")
+                  .decoration({ type: TextDecorationType.Underline, color: "#0099ff" })
+                  .onClick(() => {
+                    this.toReadAbility(item)
+                  })
               }
               .TextStyle()
               .justifyContent(FlexAlign.SpaceBetween)

@@ -4,13 +4,13 @@
       {
         "name": "default",
         "material": {
-          "certpath": "C:\\Users\\lx182\\.ohos\\config\\openharmony\\auto_ohos_default_ohosTestApp_com.example.myapplication.cer",
-          "storePassword": "0000001BC36666F43E23691C19D12A84687BC7C15C7096715043E63CB01527E3FD7E9862327A9ADEBF4BB5",
+          "certpath": "C:\\Users\\lx182\\.ohos\\config\\openharmony\\auto_ohos_default_MyApplication4_com.hanvon.read.cer",
+          "storePassword": "0000001BD06D31EA16662AB6944533FC7B0D094C472F6D17B93599125992B7F1FA64FA6B1DAECDB9341428",
           "keyAlias": "debugKey",
-          "keyPassword": "0000001B617F4F51138AABF67574430CBC0A008DCD39DF952DA1ADB6F9441C7A5A6A6584802D63893F4E03",
-          "profile": "C:\\Users\\lx182\\.ohos\\config\\openharmony\\auto_ohos_default_ohosTestApp_com.example.myapplication.p7b",
+          "keyPassword": "0000001BCBD556F1095843A62F5BE0EAA90B306E6895D679C139E7289759AA5DBEF0C3249706C46D730C86",
+          "profile": "C:\\Users\\lx182\\.ohos\\config\\openharmony\\auto_ohos_default_MyApplication4_com.hanvon.read.p7b",
           "signAlg": "SHA256withECDSA",
-          "storeFile": "C:\\Users\\lx182\\.ohos\\config\\openharmony\\auto_ohos_default_ohosTestApp_com.example.myapplication.p12"
+          "storeFile": "C:\\Users\\lx182\\.ohos\\config\\openharmony\\auto_ohos_default_MyApplication4_com.hanvon.read.p12"
         }
       }
     ],

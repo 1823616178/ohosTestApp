@@ -1,11 +1,13 @@
 import axios, { Axios, AxiosInstance, AxiosRequestConfig, AxiosResponse, InternalAxiosRequestConfig } from '@ohos/axios'
 
+const token = "eyJUeXBlIjoiSnd0IiwidHlwIjoiSldUIiwiYWxnIjoiSFMyNTYifQ.eyJ1c2VyY0lkIjoiMjIiLCJleHAiOjE3MDM3MzQ5NzEsImVtYWlsIjoiIiwidXNlcm5hbWUiOiJseDE4MjM2MTYxNzgifQ.kOhxkyEIxYS0D5fJRJpy4VupTRGCz6rzHQg-mOB9YAA"
 
 const defaultConfig: AxiosRequestConfig = {
   // 请求超时时间
   timeout: 10000,
   baseURL: "http://123.161.179.32:59573/api2",
   headers: {
+    Token: token,
     Accept: "application/json, text/plain, */*",
     "Content-Type": "application/json",
     "X-Requested-With": "XMLHttpRequest"

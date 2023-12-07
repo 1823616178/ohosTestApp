@@ -4,6 +4,7 @@ import hilog from '@ohos.hilog';
 
 export default class HomeAbility extends UIAbility {
   onCreate(want, launchParam) {
+    hilog.info(0x0000, 'testTag', '%{public}s', 'Ability onDestroy');
   }
 
   onWindowStageCreate(windowStage: window.WindowStage) {
@@ -13,6 +14,5 @@ export default class HomeAbility extends UIAbility {
         return
       }
     })
-
   }
 }
