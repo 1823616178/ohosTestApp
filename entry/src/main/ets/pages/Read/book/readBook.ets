@@ -23,6 +23,7 @@ struct readBook {
   @State navListLoading: boolean = false
   @State contentLoading: boolean = false
   @State contentText: string = ""
+
   /**
    * 初始化
    */
@@ -60,7 +61,7 @@ struct readBook {
       this.bookContent = res.data
       await this.onContentChange()
       if (this.contentText.length>0){
-        await HtmlToObj(this.contentText)
+        // await HtmlToObj(this.contentText)
       }
     }).finally(() => {
       this.contentLoading = false

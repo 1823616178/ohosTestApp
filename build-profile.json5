@@ -5,9 +5,9 @@
         "name": "default",
         "material": {
           "certpath": "C:\\Users\\lx182\\.ohos\\config\\openharmony\\auto_ohos_default_MyApplication4_com.hanvon.read.cer",
-          "storePassword": "0000001BD06D31EA16662AB6944533FC7B0D094C472F6D17B93599125992B7F1FA64FA6B1DAECDB9341428",
+          "storePassword": "0000001BD9D96F31902C593F0347F480B06B2D208783D5F8A3C29196E51C138C260A085A0EA8A8E810939B",
           "keyAlias": "debugKey",
-          "keyPassword": "0000001BCBD556F1095843A62F5BE0EAA90B306E6895D679C139E7289759AA5DBEF0C3249706C46D730C86",
+          "keyPassword": "0000001BC5C6664174C06EC43FFC2EC9F7E424E22007BBCDE154E59AFF1ECD8B83E200BC7840FFFFBB2D29",
           "profile": "C:\\Users\\lx182\\.ohos\\config\\openharmony\\auto_ohos_default_MyApplication4_com.hanvon.read.p7b",
           "signAlg": "SHA256withECDSA",
           "storeFile": "C:\\Users\\lx182\\.ohos\\config\\openharmony\\auto_ohos_default_MyApplication4_com.hanvon.read.p12"
