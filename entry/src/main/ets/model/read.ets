@@ -53,22 +53,22 @@ export class filePathArray {
  * 图书内容模型
  */
 export class bookListModel {
-  sourceId: string;
-  extent: string;
-  identifier: string;
-  eventNumber: number;
-  geographicalNumber: number;
-  parentRid: string;
-  orderNum: number;
-  bookAbstract: string;
-  personalNumber: number;
-  productNumber: number;
-  type: string;
-  title: string;
-  startFileNum: number;
-  tableNumber: string;
-  readModel: string;
-  endFileNum: number;
-  filePathArray: filePathArray[];
-  orgNumber: number;
+  sourceId?: string;
+  extent?: string;
+  identifier?: string;
+  eventNumber?: number;
+  geographicalNumber?: number;
+  parentRid?: string;
+  orderNum?: number;
+  bookAbstract?: string;
+  personalNumber?: number;
+  productNumber?: number;
+  type?: string;
+  title?: string;
+  startFileNum?: number;
+  tableNumber?: string;
+  readModel?: string;
+  endFileNum?: number;
+  filePathArray?: filePathArray[];
+  orgNumber?: number;
 }

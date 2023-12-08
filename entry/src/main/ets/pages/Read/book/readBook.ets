@@ -1,9 +1,11 @@
 import router from '@ohos.router'
+import document from '@ohos.document'
 import { getBookNavList, selectBookContentFileInfo } from '../../../api/read'
 import { resultType } from '../../../model/common'
-import { bookNavList } from '../../../model/read'
+import { bookListModel, bookNavList } from '../../../model/read'
 import { articleContent } from './composent/articleContent'
 import { navList } from './composent/navList'
+import { HtmlToObj } from './composent/xmlAnalysis'
 
 @Entry
 @Component
@@ -17,7 +19,10 @@ struct readBook {
   @Provide volume: string = this.params['volume']
   @Provide navList: bookNavList[] = []
   @Provide ridList: string[] = []
-
+  @State bookContent: bookListModel = {}
+  @State navListLoading: boolean = false
+  @State contentLoading: boolean = false
+  @State contentText: string = ""
   /**
    * 初始化
    */
@@ -34,8 +39,11 @@ struct readBook {
       volume: "001",
       basicType: "图书"
     }
+    this.navListLoading = true
     await getBookNavList(query).then((res: resultType<bookNavList[]>) => {
       this.navList = res.data
+    }).finally(() => {
+      this.contentLoading = false
     })
   }
   /**
@@ -47,51 +55,92 @@ struct readBook {
       identifier: this.identifier || "",
       volume: this.volume || ""
     }
-    await selectBookContentFileInfo(query).then(res => {
-
+    this.contentLoading = true
+    await selectBookContentFileInfo(query).then(async (res: resultType<bookListModel>) => {
+      this.bookContent = res.data
+      await this.onContentChange()
+      if (this.contentText.length>0){
+        await HtmlToObj(this.contentText)
+      }
+    }).finally(() => {
+      this.contentLoading = false
     })
+  }
+  /***
+   * 请求导航对应内容
+   */
+  private getNavToContent = async (item: bookNavList) => {
+    this.sourceId = item.sourceId
+    this.identifier = item.identifier
+    await this.getBookContent()
+  }
+  /***
+   * 过滤文章内容
+   */
+  private async onContentChange() {
+    let cont = ""
+    this.contentText = ""
+    if (this.bookContent.filePathArray) {
+      for (let i of this.bookContent.filePathArray) {
+        cont += i.content
+      }
+    }
+    this.contentText = cont
   }
 
   build() {
     SideBarContainer(SideBarContainerType.Embed) {
-      Scroll() {
-        Column() {
-          ForEach(this.navList, (item: bookNavList, index) => {
-            Column() {
-              Text(item.partName || "暂无")
-                .fontSize(16)
-                .textOverflow({ overflow: TextOverflow.Ellipsis })
-                .maxLines(1)
-                .fontColor(this.current === item.rid ? '#0A59F7' : '#999')
-                .textAlign(TextAlign.Start)
-                .width("100%")
-              if (item.children && this.ridList.indexOf(item.rid) > -1) {
-                navList({ childrenList: item.children })
+      Column() {
+        Scroll() {
+          Column() {
+            ForEach(this.navList, (item: bookNavList, index) => {
+              Column() {
+                Text(item.partName || "暂无")
+                  .fontSize(16)
+                  .textOverflow({ overflow: TextOverflow.Ellipsis })
+                  .maxLines(1)
+                  .fontColor(this.current === item.rid ? '#0A59F7' : '#999')
+                  .textAlign(TextAlign.Start)
+                  .width("100%")
+                if (item.children && this.ridList.indexOf(item.rid) > -1) {
+                  navList({ childrenList: item.children, getNavToContent: this.getNavToContent })
+                }
               }
-            }
-            .padding({ left: 5, right: 5 })
-            .width("100%")
-            .margin({ top: 5 })
-            .justifyContent(FlexAlign.Center)
-            .alignItems(HorizontalAlign.Center)
-            .onClick(() => {
-              this.current = item.rid
-              if (item.children) {
-                  this.ridList.indexOf(item.rid) > -1 ? this.ridList.splice(this.ridList.indexOf(item.rid, 1)) : this.ridList.push(item.rid)
-              }
-            })
-          }, item => item)
-        }
-        .padding({ top: 40 })
-        .width('100%')
-        .justifyContent(FlexAlign.Start)
-        .alignItems(HorizontalAlign.Center)
-        .backgroundColor('#19000000')
-      }.scrollBar(BarState.Off)
-      .scrollable(ScrollDirection.Vertical)
+              .padding({ left: 5, right: 5 })
+              .width("100%")
+              .margin({ top: 5 })
+              .justifyContent(FlexAlign.Center)
+              .alignItems(HorizontalAlign.Center)
+              .onClick(async () => {
+                this.current = item.rid
+                if (item.children) {
+                    this.ridList.indexOf(item.rid) > -1 ? this.ridList.splice(this.ridList.indexOf(item.rid, 1)) : this.ridList.push(item.rid)
+                } else {
+                  await this.getNavToContent(item)
+                }
+
+              })
+            }, item => item)
+          }
+          .padding({ top: 40 })
+          .width('100%')
+          .justifyContent(FlexAlign.Start)
+          .alignItems(HorizontalAlign.Center)
+          .backgroundColor('#19000000')
+        }.scrollBar(BarState.Off)
+        .scrollable(ScrollDirection.Vertical)
+      }
 
       Column() {
-        articleContent() {
+        if (this.contentLoading) {
+          Column() {
+            LoadingProgress().color(Color.Green).width(40).height(40)
+          }.height("100%").width("100%").alignItems(HorizontalAlign.Center).justifyContent(FlexAlign.Center)
+        } else {
+          articleContent({
+            contentText: this.contentText,
+            bookContent: $bookContent
+          })
         }
       }
       .margin({ top: 50, left: 20, right: 30 })

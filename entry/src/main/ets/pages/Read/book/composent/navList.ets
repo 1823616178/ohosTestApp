@@ -3,6 +3,7 @@ import { bookNavList } from '../../../../model/read'
 @Component
 export struct navList {
   childrenList: bookNavList[]
+  getNavToContent: (item: bookNavList) => Promise<void>
   @Consume current: string
   @Consume ridList: string[]
 
@@ -21,6 +22,8 @@ export struct navList {
               this.current = item.rid
               if (item.children && this.ridList.indexOf(item.rid) > -1) {
                   this.ridList.indexOf(item.rid) > -1 ? this.ridList.splice(this.ridList.indexOf(item.rid, 1)) : this.ridList.push(item.rid)
+              } else {
+                this.getNavToContent(item)
               }
             })
           if (item.children) {
